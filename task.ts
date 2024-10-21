@@ -34,7 +34,7 @@ export default class Task extends ETL {
 
     async control(): Promise<void> {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Get the Environment from the Server and ensure it conforms to the schema
-        const env = await this.env(Env);
+        const env = await this.env(InputSchema);
 
         const features: Feature[] = [];
 
