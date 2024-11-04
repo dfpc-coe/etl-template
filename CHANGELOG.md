@@ -10,6 +10,10 @@
 
 ## Version History
 
+### v1.0.1
+
+- :arrow_up: Update Core Deps
+
 ### v1.0.0
 
 - :rocket: Initial Approach
