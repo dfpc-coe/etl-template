@@ -1,7 +1,6 @@
 import { Type, TSchema } from '@sinclair/typebox';
-import { FeatureCollection, Feature } from 'geojson';
 import type { Event } from '@tak-ps/etl';
-import ETL, { SchemaType, handler as internal, local, env } from '@tak-ps/etl';
+import ETL, { SchemaType, handler as internal, local, InputFeatureCollection } from '@tak-ps/etl';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars --  Fetch with an additional Response.typed(TypeBox Object) definition
 import { fetch } from '@tak-ps/etl';
@@ -42,7 +41,7 @@ export default class Task extends ETL {
         // That conform to the node-cot Feature properties spec
         // https://github.com/dfpc-coe/node-CoT/
 
-        const fc: FeatureCollection = {
+        const fc: Static<typeof InputFeatureCollection> = {
             type: 'FeatureCollection',
             features: features
         }
@@ -51,9 +50,8 @@ export default class Task extends ETL {
     }
 }
 
-env(import.meta.url)
-await local(new Task(), import.meta.url);
+await local(new Task(import.meta.ulr), import.meta.url);
 export async function handler(event: Event = {}) {
-    return await internal(new Task(), event);
+    return await internal(new Task(import.meta.url), event);
 }
 
