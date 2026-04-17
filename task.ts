@@ -1,4 +1,5 @@
-import { Static, Type, TSchema } from '@sinclair/typebox';
+import type { Static, TSchema } from '@sinclair/typebox';
+import { Type } from '@sinclair/typebox';
 import type { Event } from '@tak-ps/etl';
 import { Feature } from '@tak-ps/node-cot'
 import ETL, { SchemaType, handler as internal, local, DataFlowType, InvocationType } from '@tak-ps/etl';
