@@ -38,8 +38,23 @@ node dist/task.js
 
 Deployment into the CloudTAK environment for configuration is done via automatic releases to the DFPC AWS environment.
 
-Github actions will build and push docker releases on every version tag which can then be automatically configured via the 
+Github actions will build and push docker releases on every version tag which can then be automatically configured via the
 CloudTAK API.
 
-Non-DFPC users will need to setup their own docker => ECS build system via something like Github Actions or AWS Codebuild.
+Builds are performed by the `cloudtak-etl` script provided by [`@tak-ps/etl`](https://github.com/dfpc-coe/etl-base).
+It requires a `capabilities.json` document alongside the `Dockerfile` which describes the task (name, description,
+compute requirements, permissions & invocation types) and is validated and embedded in the OCI Image Manifest as a
+`com.cloudtak.capabilities` annotation so CloudTAK can read it directly from ECR before the task is ever deployed.
+Update `capabilities.json` whenever the task's requirements change.
 
+To build & push manually:
+
+```sh
+export AWS_REGION='us-east-1'
+export AWS_ACCOUNT_ID='123456789012'
+export Environment='prod' # Optional - defaults to prod
+
+npx cloudtak-etl
+```
+
+Non-DFPC users will need to setup their own docker => ECS build system via something like Github Actions or AWS Codebuild.

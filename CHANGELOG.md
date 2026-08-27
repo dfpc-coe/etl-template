@@ -10,6 +10,12 @@
 
 ## Version History
 
+### Pending Release
+
+- :rocket: Build & push via `cloudtak-etl` so `capabilities.json` is annotated onto the OCI manifest
+- :tada: Add starter `capabilities.json`
+- :arrow_up: Update Github Actions to current versions & run build/test in CI
+
 ### v1.0.0
 
 - :rocket: Initial Approach
