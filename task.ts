@@ -4,7 +4,7 @@ import type { Event } from '@tak-ps/etl';
 import { Feature } from '@tak-ps/node-cot'
 import ETL, { SchemaType, handler as internal, local, DataFlowType, InvocationType } from '@tak-ps/etl';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars --  Fetch with an additional Response.typed(TypeBox Object) definition
+// oxlint-disable-next-line no-unused-vars -- Fetch with an additional Response.typed(TypeBox Object) definition
 import { fetch } from '@tak-ps/etl';
 
 /**
@@ -33,19 +33,13 @@ export default class Task extends ETL {
         type: SchemaType = SchemaType.Input,
         flow: DataFlowType = DataFlowType.Incoming
     ): Promise<TSchema> {
-        if (flow === DataFlowType.Incoming) {
-            if (type === SchemaType.Input) {
-                return InputSchema;
-            } else {
-                return OutputSchema;
-            }
-        } else {
-            return Type.Object({});
-        }
+        if (flow !== DataFlowType.Incoming) return Type.Object({});
+
+        return type === SchemaType.Input ? InputSchema : OutputSchema;
     }
 
     async control(): Promise<void> {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Get the Environment from the Server and ensure it conforms to the schema
+        // oxlint-disable-next-line no-unused-vars -- Get the Environment from the Server and ensure it conforms to the schema
         const env = await this.env(InputSchema);
 
         const features: Static<typeof Feature.InputFeature>[] = [];
@@ -64,7 +58,7 @@ export default class Task extends ETL {
 }
 
 await local(await Task.init(import.meta.url), import.meta.url);
-export async function handler(event: Event = {}) {
-    return await internal(new Task(import.meta.url), event);
+export async function handler(event: Event = {}): ReturnType<typeof internal> {
+    return internal(new Task(import.meta.url), event);
 }
 
